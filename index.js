@@ -26,9 +26,7 @@ module.exports = function readily (fn) {
     if (isThenable(val)) {
       val.then(function (res) {
         cb(null, res)
-      }).catch(function (err) {
-        cb(err)
-      })
+      }).catch(cb)
     }
   }
 
