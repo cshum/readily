@@ -1,3 +1,5 @@
+var Promise = require('pinkie-promise')
+
 module.exports = function readily (fn) {
   function run (callback) {
     var queue = [callback]
@@ -11,7 +13,6 @@ module.exports = function readily (fn) {
       function apply (callback) {
         if (callback) callback.apply(null, args)
       }
-
       state = err ? run : apply
       while (queue.length) apply(queue.shift())
     })
@@ -20,6 +21,16 @@ module.exports = function readily (fn) {
   var state = run
 
   return function (callback) {
-    state(callback)
+    if (typeof callback === 'function') {
+      state(callback)
+    } else {
+      // wrap promise if no callback
+      return new Promise(function (resolve, reject) {
+        state(function (err, result) {
+          if (err) return reject(err)
+          resolve(result)
+        })
+      })
+    }
   }
 }

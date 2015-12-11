@@ -18,6 +18,22 @@ test('Cached result', function (t) {
   }
 })
 
+test('Cached result promise', function (t) {
+  t.plan(1 + 5)
+  var fn = readily(function (cb) {
+    t.pass('readily called once')
+    setTimeout(function () {
+      cb(null, 'foo')
+    }, 10)
+  })
+
+  for (var i = 0; i < 5; i++) {
+    fn().then(function (res) {
+      t.equal(res, 'foo', 'correct result')
+    }).catch(t.error)
+  }
+})
+
 test('Error uncached', function (t) {
   t.plan(5 + 2)
   var fn = readily(function (cb) {
