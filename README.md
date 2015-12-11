@@ -6,7 +6,7 @@
 npm install readily
 ```
 
-Buffer evaluation of a paramless async function, result is cached if resolved. 
+Buffer evaluation of a paramless async function call, where result is cached if resolved. 
 Supports both promise and callback.
 
 Using promise:
