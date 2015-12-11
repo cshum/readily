@@ -1,5 +1,6 @@
 var test = require('tape')
 var readily = require('./')
+var Promise = require('pinkie-promise')
 
 test('Cached result', function (t) {
   t.plan(1 + 5 * 2)
@@ -18,22 +19,6 @@ test('Cached result', function (t) {
   }
 })
 
-test('Cached result promise', function (t) {
-  t.plan(1 + 5)
-  var fn = readily(function (cb) {
-    t.pass('readily called once')
-    setTimeout(function () {
-      cb(null, 'foo')
-    }, 10)
-  })
-
-  for (var i = 0; i < 5; i++) {
-    fn().then(function (res) {
-      t.equal(res, 'foo', 'correct result')
-    }).catch(t.error)
-  }
-})
-
 test('Error uncached', function (t) {
   t.plan(5 + 2)
   var fn = readily(function (cb) {
@@ -46,6 +31,44 @@ test('Error uncached', function (t) {
   for (var i = 0; i < 5; i++) {
     setTimeout(function () {
       fn(function (err, res) {
+        t.equal(err, 'err', 'callback error')
+      })
+    }, 4 * i)
+  }
+})
+
+test('Cached result promise', function (t) {
+  t.plan(1 + 5)
+  var fn = readily(function () {
+    t.pass('readily called once')
+    return new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        resolve('foo')
+      }, 10)
+    })
+  })
+
+  for (var i = 0; i < 5; i++) {
+    fn().then(function (res) {
+      t.equal(res, 'foo', 'correct result')
+    }).catch(t.error)
+  }
+})
+
+test('Error uncached promise', function (t) {
+  t.plan(5 + 2)
+  var fn = readily(function (cb) {
+    t.pass('readily called')
+    return new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        reject('err')
+      }, 10)
+    })
+  })
+
+  for (var i = 0; i < 5; i++) {
+    setTimeout(function () {
+      fn().catch(function (err) {
         t.equal(err, 'err', 'callback error')
       })
     }, 4 * i)
