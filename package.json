@@ -1,0 +1,21 @@
+{
+  "name": "readily",
+  "version": "0.0.1",
+  "description": "",
+  "author": "Adrian C Shum <adrian@cshum.com>",
+  "scripts": {
+    "test": "standard && node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cshum/readily.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "pinkie-promise": "^2.0.0"
+  },
+  "devDependencies": {
+    "standard": "^5.1.0",
+    "tape": "^3.0.3"
+  }
+}
