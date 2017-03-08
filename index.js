@@ -1,5 +1,3 @@
-var Promise = require('pinkie-promise')
-
 function isThenable (val) {
   return val && typeof val.then === 'function'
 }

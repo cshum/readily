@@ -61,7 +61,7 @@ test('Error uncached promise', function (t) {
     t.pass('readily called')
     return new Promise(function (resolve, reject) {
       setTimeout(function () {
-        reject('err')
+        reject(new Error('err'))
       }, 10)
     })
   })
@@ -69,7 +69,7 @@ test('Error uncached promise', function (t) {
   for (var i = 0; i < 5; i++) {
     setTimeout(function () {
       fn().catch(function (err) {
-        t.equal(err, 'err', 'callback error')
+        t.equal(err.message, 'err', 'callback error')
       })
     }, 4 * i)
   }
