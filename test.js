@@ -1,6 +1,5 @@
 var test = require('tape')
 var readily = require('./')
-var Promise = require('pinkie-promise')
 
 test('Cached result', function (t) {
   t.plan(1 + 5 * 2)
