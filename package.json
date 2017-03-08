@@ -1,6 +1,6 @@
 {
   "name": "readily",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Buffer evaluation of a paramless async function call",
   "author": "Adrian C Shum <adrian@cshum.com>",
   "scripts": {
